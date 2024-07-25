@@ -17,8 +17,11 @@ public class Program {
 		 * "Bob", "bob@gmail.com", new Date(), 3000.0, obj);
 		 */
 		
+	
 		SellerDAO sellerdao = DAOFactory.createSellerDao();
 
+		System.out.println("=== TEST 1: seller findByid ======");
+		
 		Seller seller = sellerdao.findById(3);
 		
 		System.out.println(seller);
@@ -27,3 +30,4 @@ public class Program {
 	}
 
 }
+                                                                                                                     
