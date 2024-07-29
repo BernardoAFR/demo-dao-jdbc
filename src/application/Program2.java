@@ -38,7 +38,6 @@ public class Program2 {
 		departmentDao.deleteById(depId);
 		System.out.println("Delete completed!");
 
-
 		System.out.println("\n=== TEST 3: seller findAll ======");
 		List<Department> departments = departmentDao.findall();
 		for(Department department : departments)

@@ -142,13 +142,14 @@ public class Program {
 
 	public static void Test5() throws ParseException {
 		System.out.println("\n=== TEST 5: seller update ======");
-		Seller UpdateSeller = new Seller();
+		Seller UpdateSeller = null;
 		Integer sellerID = null;
 
 		while (sellerID == null) {
 			try {
 				System.out.println("\nEnter with a seller id to data update: ");
 				sellerID = input.nextInt();
+				input.nextLine();
 				UpdateSeller = sellerdao.findById(sellerID);
 
 				if (UpdateSeller != null) {
@@ -173,19 +174,25 @@ public class Program {
 
 			System.out.println("Please, select your data for update: ");
 			System.out.println("---------------------------"
-					+ "\nname " + "\nemail " + "\nbirthdate "
-					+ "\nbaseSalary " + "\ndepartment " + "\nquit - To quit");
-			input.nextLine();
+					+ "\nname " + 
+					"\nemail " 
+					+ "\nbirthdate "
+					+ "\nbaseSalary " 
+					+ "\ndepartment "
+					+ "\nquit - To quit");
+			
 			UpdateDate = input.nextLine();
 
 			switch (UpdateDate) {
 			case "name":
+                System.out.print("Enter the new name: ");
 				String name = input.nextLine();
 				UpdateSeller.setName(name);
 				sellerdao.update(UpdateSeller);
 				break;
 
 			case "email":
+                System.out.println("Enter the new email: ");
 				String email = input.nextLine();
 				UpdateSeller.setEmail(email);
 				sellerdao.update(UpdateSeller);
@@ -204,18 +211,20 @@ public class Program {
 				break;
 
 			case "baseSalary":
-				try {
-					UpdateSeller.setBaseSalary(input.nextDouble());
-					sellerdao.update(UpdateSeller);
-					input.nextLine();
-				} catch (InputMismatchException e) {
-					System.out.println("Invalid input. Please enter a valid number for the salary.");
-					input.nextLine();
-				}
-				break;
-
+			    try {
+			        System.out.print("Enter the new base salary: ");
+			        Double baseSalary = input.nextDouble();
+			        UpdateSeller.setBaseSalary(baseSalary);
+			        sellerdao.update(UpdateSeller);
+			        input.nextLine(); 
+			    } catch (InputMismatchException e) {
+			        System.out.println("Invalid input. Please enter a valid number for the salary.");
+			        input.nextLine(); 
+			    }
+			    break;
 			case "department":
 				try {
+                    System.out.print("Enter the new department ID: ");
 					Integer departmentId = input.nextInt();
 					UpdateSeller.setDepartment(new Department(departmentId, null));
 					sellerdao.update(UpdateSeller);
@@ -279,7 +288,7 @@ public class Program {
 			
 			sellerID = null;
 			System.out.println("\nAre there more sellers to exclude?('yes' or 'no'): ");
-			deleteSeller = input.nextLine().toLowerCase();
+			deleteSeller = input.nextLine();
 			
 		} while (deleteSeller.equals("yes"));
 
@@ -294,9 +303,15 @@ public class Program {
 		Integer test = null;
 		do {
 			System.out.println("Please, select your test: ");
-			System.out.println("---------------------------" + "\n1 - Find by Id " + "\n2 - FindByDepartment "
-					+ "\n3 - FindAll" + "\n4 - Insert a seller " + "\n5 - Update a seller " + "\n6 - Delete a seller "
+			System.out.println("---------------------------" 
+					+ "\n1 - Find by Id "
+					+ "\n2 - FindByDepartment "
+					+ "\n3 - FindAll" 
+					+ "\n4 - Insert a seller " 
+					+ "\n5 - Update a seller " 
+					+ "\n6 - Delete a seller "
 					+ "\n7 - To quit");
+			
 			test = input.nextInt();
 
 			switch (test) {
@@ -333,10 +348,11 @@ public class Program {
 				System.out.println("Invalid option. Please select a valid test.");
 				break;
 			}
-
+			
+			input.nextLine();
 			if (test != 7) {
 				System.out.print("\nContinue execution?('yes' or 'no'): ");
-				execute = input.nextLine().toLowerCase();
+				execute = input.nextLine();
 			} else
 				execute = "no";
 
