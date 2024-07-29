@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.DAO.DAOFactory;
+import model.DAO.DepartmentDAO;
 import model.DAO.SellerDAO;
 import model.entities.Department;
 import model.entities.Seller;
@@ -19,9 +20,11 @@ public class Program {
 	public static Date date = null;
 
 	public static Scanner input = new Scanner(System.in);
+	public static DepartmentDAO departmentDao = DAOFactory. createDepartmentDao();
+
 	public static SellerDAO sellerdao = DAOFactory.createSellerDao();
 
-	public static void Test1() {
+	private static void Test1() {
 		System.out.println("=== TEST 1: seller findByid ======");
 
 		Integer id = null;
@@ -41,19 +44,31 @@ public class Program {
 
 	}
 
-	public static void Test2() {
+	private static void Test2() {
 		System.out.println("\n=== TEST 2: seller findByDepartment ======");
 
-		Integer Depid = null;
-		while (Depid == null) {
+		Integer DepId = null;
+		while (DepId == null) {
 			try {
 				System.out.println("Enter id for findByDepartment test: ");
-				Depid = input.nextInt();
-				Department department = new Department(Depid, null);
+				DepId = input.nextInt();
+				input.nextLine();
+				Department departmentLoc = departmentDao.findById(DepId);
+
+				while( departmentLoc == null) {
+					System.out.print("Department Id not found! Please, select order Id: ");
+					DepId = input.nextInt();
+					input.nextLine();
+					departmentLoc = departmentDao.findById(DepId);
+
+				}
+				Department department = new Department(DepId, null);
+
 				List<Seller> sellers = sellerdao.findByDepartment(department);
 				for (Seller seller : sellers) {
 					System.out.println(seller);
 				}
+				System.out.println(sellers.size());
 			} catch (InputMismatchException e) {
 				System.out.println("Invalid input. Please enter a valid integer.");
 				input.next();
@@ -64,7 +79,7 @@ public class Program {
 
 	}
 
-	public static void Test3() {
+	private static void Test3() {
 		System.out.println("\n=== TEST 3: seller findAll ======");
 		List<Seller> AllSellers = sellerdao.findall();
 		for (Seller seller : AllSellers) {
@@ -72,7 +87,7 @@ public class Program {
 		}
 	}
 
-	public static void Test4() {
+	private static void Test4() {
 		System.out.println("\n=== TEST 4: seller insert ======");
 
 		String name = null;
@@ -140,7 +155,7 @@ public class Program {
 
 	}
 
-	public static void Test5() throws ParseException {
+	private static void Test5() throws ParseException {
 		System.out.println("\n=== TEST 5: seller update ======");
 		Seller UpdateSeller = null;
 		Integer sellerID = null;
@@ -259,7 +274,7 @@ public class Program {
 
 	}
 
-	public static void Test6() {
+	private static void Test6() {
 
 		System.out.println("\n=== TEST 6: seller delete ======");
 
@@ -295,6 +310,7 @@ public class Program {
 		System.out.println("Delete completed!");
 
 	}
+	
 
 	public static void main(String[] args) throws ParseException {
 		System.out.println("Program 'seller' test running...");
